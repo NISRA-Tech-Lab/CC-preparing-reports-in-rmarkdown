@@ -1,0 +1,114 @@
+---
+title: "Iris Report"
+author: "Katie Barbour"
+date: "12/04/2024"
+output: 
+  html_document:
+    toc: true
+---
+
+
+# Introduction  
+
+The Iris dataset has petal and sepal width and length for three species of Iris flower (*Iris setosa*, *versicolor* and *virginica*). There are fifty samples for each species. Petal and sepal width and length can be used to predict which species of Iris a flower is. 
+
+```{r chunk 1, include=TRUE, message=FALSE, echo=FALSE, warning=FALSE}
+
+#install.packages("pacman")
+library(pacman)
+p_load("dplyr","ggplot2","knitr","plyr", "reshape2")
+
+include_graphics("Irisspecies.png")
+
+```
+  
+
+**Figure 1: Iris species** 
+
+```{r chunk 2, include=FALSE, message=FALSE, echo=FALSE, warning=FALSE}
+
+data<-iris #assigns the iris dataset to the name 'data' 
+
+head(data) #shows first few lines of the data set
+str(data) #sturcture of dataset
+names(data) #names of dataset
+summary(data) #summary of dataset
+```
+
+# Exploring the data
+
+First, lets explore the data by plotting a histogram of all four measurements, grouped by each species of iris. 
+
+```{r chunk 3, message=FALSE, echo=FALSE, warning=FALSE, fig.width=14, fig.height=10, fig.cap="Petal and sepal length and width in cm by Iris species"}
+
+datalong <- melt(data, id.vars="Species") #melt changes the data from wide to long format using 
+
+figure1<- ggplot(data=datalong, aes(x=Species, y=value, fill=variable))+
+  geom_bar(stat="identity", position="dodge") +
+  scale_fill_manual(values=c("#00205b","#3878c5","darkorange3","cadetblue3"),
+                    name="Iris\nMeasurements",
+                    breaks=c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                    labels=c("Sepal Length", "Sepal Width", "Petal Length", "Petal Width"))+
+  labs(y="Measurement (cm)")+
+  theme(text=element_text(size=40))
+   
+show(figure1)
+```
+
+From the barchart we can see that all four measurements vary between iris species. Lets calculate some summary statistics for the whole data set. 
+
+```{r chunk 4, include=FALSE}
+
+av.p.width<-mean(data$Petal.Width)#calculate average petal width and assign to name 
+av.p.length<-mean(data$Petal.Length)#calculate average petal length
+
+av.s.width<- mean(data$Sepal.Width)
+av.s.length<-mean(data$Sepal.Length)
+  
+```
+
+
+## Average sepal and petal width and length  
+
+* The average petal width for all species of Iris is `r round (av.p.width, digits=1)` cm.
+* The average petal length for all species of Iris is `r round (av.p.length, digits=1)` cm.
+* The average sepal width for all species of Iris is `r round (av.s.width, digits=1)` cm.
+* The average sepal length for all species of Iris is `r round (av.s.width, digits=1)` cm.
+
+## Petal petal width by species
+
+
+```{r chunk 5, include=FALSE}
+
+means.by.sp<-aggregate(Petal.Width~Species,data, FUN=mean) #calculate the average petal width for each species 
+
+p.width.setosa <- means.by.sp$Petal.Width[which(means.by.sp$Species=='setosa',)]
+p.width.versicolor <- means.by.sp$Petal.Width[which(means.by.sp$Species=='versicolor',)]
+p.width.virginica <- means.by.sp$Petal.Width[which(means.by.sp$Species=='virginica',)]
+```
+
+The average petal width by Iris species are..  
+
+* *Iris setosa* = `r round(p.width.setosa, digits=1)`  
+
+* *Iris versicolor* =  `r round(p.width.versicolor, digits=2)`
+
+* *Iris virginica* =  `r round (p.width.virginica, digits=3)`
+
+
+
+```{r chunk 6, message=FALSE, echo=FALSE, fig.width=14, fig.height=10, fig.cap="Sepal length and Sepal width in cm by Iris species"}
+ 
+Figure2 <- ggplot(data=data, aes(x = Sepal.Length, y = Sepal.Width))+
+ geom_point(aes(color=Species, shape=Species),size=4)+
+   scale_colour_manual(values=c("#00205b","#3878c5","darkorange3"))+
+  xlab("Sepal Length") +ylab("Sepal Width") +
+  ggtitle("Sepal Length and Width by Iris species")+
+  theme(text=element_text(size=40))
+
+show(Figure2)
+
+```
+
+
+
