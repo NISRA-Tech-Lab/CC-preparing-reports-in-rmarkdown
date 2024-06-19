@@ -1,9 +1,9 @@
 ---
-title: "Iris Report"
-author: "Katie Barbour"
-date: "12/04/2024"
+title: "Report"
+author: "Name Name"
+date: "13/05/2024"
 output: 
-  html_document:
+  word_document:
     toc: true
 ---
 
@@ -12,7 +12,7 @@ output:
 
 The Iris dataset has petal and sepal width and length for three species of Iris flower (*Iris setosa*, *versicolor* and *virginica*). There are fifty samples for each species. Petal and sepal width and length can be used to predict which species of Iris a flower is. 
 
-```{r chunk 1, include=TRUE, message=FALSE, echo=FALSE, warning=FALSE}
+```{r chunk 1, message=FALSE, echo=TRUE, warning=FALSE}
 
 #install.packages("pacman")
 library(pacman)
@@ -39,7 +39,7 @@ summary(data) #summary of dataset
 
 First, lets explore the data by plotting a histogram of all four measurements, grouped by each species of iris. 
 
-```{r chunk 3, message=FALSE, echo=FALSE, warning=FALSE, fig.width=14, fig.height=10, fig.cap="Petal and sepal length and width in cm by Iris species"}
+```{r chunk 3, message=FALSE, echo=FALSE, warning=FALSE, fig.width=14, fig.height=20, fig.cap="Length and width in cm by Iris species"}
 
 datalong <- melt(data, id.vars="Species") #melt changes the data from wide to long format using 
 
@@ -62,9 +62,6 @@ From the barchart we can see that all four measurements vary between iris specie
 av.p.width<-mean(data$Petal.Width)#calculate average petal width and assign to name 
 av.p.length<-mean(data$Petal.Length)#calculate average petal length
 
-av.s.width<- mean(data$Sepal.Width)
-av.s.length<-mean(data$Sepal.Length)
-  
 ```
 
 
@@ -72,8 +69,8 @@ av.s.length<-mean(data$Sepal.Length)
 
 * The average petal width for all species of Iris is `r round (av.p.width, digits=1)` cm.
 * The average petal length for all species of Iris is `r round (av.p.length, digits=1)` cm.
-* The average sepal width for all species of Iris is `r round (av.s.width, digits=1)` cm.
-* The average sepal length for all species of Iris is `r round (av.s.width, digits=1)` cm.
+* The average sepal width for all species of Iris is ? cm.
+* The average sepal length for all species of Iris is ? cm.
 
 ## Petal petal width by species
 
@@ -83,17 +80,16 @@ av.s.length<-mean(data$Sepal.Length)
 means.by.sp<-aggregate(Petal.Width~Species,data, FUN=mean) #calculate the average petal width for each species 
 
 p.width.setosa <- means.by.sp$Petal.Width[which(means.by.sp$Species=='setosa',)]
-p.width.versicolor <- means.by.sp$Petal.Width[which(means.by.sp$Species=='versicolor',)]
-p.width.virginica <- means.by.sp$Petal.Width[which(means.by.sp$Species=='virginica',)]
+
 ```
 
-The average petal width by Iris species are..  
+The average petal width by Iris species is..  
 
 * *Iris setosa* = `r round(p.width.setosa, digits=1)`  
 
-* *Iris versicolor* =  `r round(p.width.versicolor, digits=2)`
+* *Iris versicolor* =  ?
 
-* *Iris virginica* =  `r round (p.width.virginica, digits=3)`
+* *Iris virginica* =  ?
 
 
 
